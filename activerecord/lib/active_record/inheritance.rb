@@ -313,7 +313,11 @@ module ActiveRecord
           subclass = sti_class_for(type_name)
 
           unless subclass == self || descendants.include?(subclass)
+            puts "*" * 100
+            puts "error_message: Invalid single-table inheritance type: #{subclass.name} is not a subclass of #{name}"
             puts "debug info: base_class: #{base_class}, inheritance_column: #{inheritance_column}, type_name: #{type_name}, subclass: #{subclass}, self: #{self}, descendants: #{descendants}"
+            puts "caller: #{caller.join("\n")}"
+            puts "*" * 100
             raise SubclassNotFound, "Invalid single-table inheritance type: #{subclass.name} is not a subclass of #{name}"
           end
 
