@@ -61,6 +61,7 @@ module ActiveSupport
 
     def self.run!(reset: false) # :nodoc:
       if check!
+        puts "check! is running..."
         super
       else
         Null

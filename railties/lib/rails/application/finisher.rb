@@ -191,13 +191,22 @@ module Rails
 
         if config.reloading_enabled?
           if config.reload_classes_only_on_change
+            puts "Reloading classes only on change is enabled. "
             app.reloader.check = lambda do
-              app.reloaders.map(&:updated?).any?
+              app.reloaders.each do |reloader|
+                puts "Checking reloader: #{reloader.inspect}"
+                if reloader.updated?
+                  puts "Reloader updated: #{reloader.inspect}"
+                  return true
+                end
+              end
             end
           else
+            puts "Reloading classes on every request is enabled. "
             app.reloader.check = lambda { true }
           end
         else
+          puts "Reloading classes is disabled. "
           app.reloader.check = lambda { false }
         end
 
